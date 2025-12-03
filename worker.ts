@@ -1,4 +1,4 @@
-// 默认文件名 worker.ts  —— Cloudflare 识别入口
+// worker.ts
 export interface Env {
   CHAT_ROOM: DurableObjectNamespace;
 }
@@ -6,9 +6,10 @@ export interface Env {
 export default {
   async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
-    if (url.pathname === "/ws") {
+    // 🔥兼容大小写
+    if (url.pathname.toLowerCase() === "/ws") {
       const nick = url.searchParams.get("nick") || "anon";
-      const id = env.CHAT_ROOM.idFromName("public"); // 单房间
+      const id = env.CHAT_ROOM.idFromName("public");
       const room = env.CHAT_ROOM.get(id);
       return room.fetch(req.clone(), { headers: { "x-nick": nick } });
     }
