@@ -1,0 +1,10 @@
+name = "simple-chat"
+main = "worker.ts"
+compatibility_date = "2025-12-03"
+
+[build]
+command = ""
+
+[[durable_objects.bindings]]
+name = "CHAT_ROOM"
+class_name = "ChatRoom"
